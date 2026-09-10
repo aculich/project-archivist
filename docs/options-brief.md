@@ -1,22 +1,41 @@
 # Archivist options brief
 
-Short comparison you can pick from. Not a build yet.
+A comparison of tools and storage layouts for keeping AI-agent projects findable. Not a product. Not a build.
 
-**Closest fit for Rob’s problem:** keep a *local* parent folder of agent projects (not a live git working tree on streamed Drive), put *code* on GitHub, put *blobs and bulky collections* in object storage, and run a *catalog/index* over that parent. The closest cloneable catalogs are [Aikito](https://github.com/lsaint/aikito) (multi-agent, multi-project workspace) and [The Librarian](https://github.com/code-ministry-ltd/the-librarian) (markdown vault + MCP handoffs). [Project Librarian](https://github.com/kkjk1176/project-librarian) is a *per-repo* wiki, not a cross-project “where is this / when did I last touch it” index.
-
-**Storage rule of thumb:** Drive is a good *human* hub; restic + GCS is a better *backup/archive*; Git LFS is a poor default for videos and churny binaries.
+**Rule of thumb:** Drive is a good *human* hub; restic + GCS is a better *backup/archive*; Git LFS is a poor default for videos and churny binaries. Keep a *local* parent folder (not a live git working tree on streamed Drive), put *code* on GitHub, put *blobs and bulky collections* in object storage, and run a *catalog* over that parent.
 
 ---
 
-## What Rob is asking
+## The problem
 
-[Rob’s thread](https://hub.switchdimension.com/c/start-here/ai-folder-and-project-management-what-are-you-using) is: work across Claude, Cursor, and Codex; lose conversations and project folders; use Google Drive as a parent “agent projects” directory; keep real code on GitHub; run a Librarian over the agent-project root to answer *where is this* and *when did I last work on it*.
+You will recognize this if several of these are true:
+
+- You work across Claude, Cursor, Codex, and other agents, and the useful conversation died in a tool you are not in today.
+- Project folders multiply — Desktop, `~/code`, a Drive stream, last week’s unzip — and you cannot answer *where is this* or *when did I last touch it*.
+- Code belongs on GitHub, but the mp4, the dataset, and the folder with 8,000 small files do not. One huge file, one git repo, and one giant directory are three different failure modes.
+- There is no catalog: no single list of path, GitHub URL, blob store, last-touched date, and whether the project is hot, idle, or done.
 
 That is three jobs, not one:
 
 1. **Catalog** — find projects, last-touched dates, “what lives where.”
-2. **Shared agent memory** — markdown the agents can read from any tool.
+2. **Shared agent memory** — markdown any tool can read, so work started in one agent can be picked up in another.
 3. **Storage policy** — GitHub for code; somewhere else for big files and large collections; hot / warm / cold as projects idle.
+
+---
+
+## What the compared tools enable
+
+A parent folder plus a catalog means you stop hunting. Cloneable workspaces ([Aikito](https://github.com/lsaint/aikito), [The Librarian](https://github.com/code-ministry-ltd/the-librarian)) give every agent the same markdown memory. Git helpers ([gita](https://github.com/nosarthur/gita), [git-workspace](https://github.com/orf/git-workspace)) answer “what did I last touch?” at the CLI. Pointer stores and restic keep videos and fat directories out of GitHub so a 4 GB file does not become an LFS bill. The layouts below exist so monthly cost can *fall* as projects graduate, instead of paying for a 2 TB Drive forever or treating Git as a backup ([GitHub: git is not a backup tool](https://docs.github.com/en/repositories/working-with-files/managing-large-files/about-large-files-on-github)).
+
+Closest cloneable catalogs: [Aikito](https://github.com/lsaint/aikito) (multi-agent, multi-project workspace) and [The Librarian](https://github.com/code-ministry-ltd/the-librarian) (markdown vault + MCP handoffs). [Project Librarian](https://github.com/kkjk1176/project-librarian) is a *per-repo* wiki, not a cross-project index.
+
+---
+
+## Switch Dimension
+
+This comparison started from the thread [AI Folder and Project Management — what are you using?](https://hub.switchdimension.com/c/start-here/ai-folder-and-project-management-what-are-you-using) in the [Switch Dimension](https://hub.switchdimension.com) community (the hub title is *Build With AI - Switch Dimension*; the public site brands as [Switch Dimension AI](https://www.switchdimension.com/)).
+
+Aaron Culich: that community is a rich, actually interesting conversation among people shipping with the same agents — and he would welcome others who are stuck on the same folder-and-memory mess. Official pages do not publish a referral or invite code. Join from the [Switch Dimension](https://www.switchdimension.com/) waitlist (next Build With AI cohort) or the [community hub](https://hub.switchdimension.com).
 
 ---
 
@@ -24,7 +43,7 @@ That is three jobs, not one:
 
 | Clone this | What it actually is | Use it for |
 | --- | --- | --- |
-| [lsaint/aikito](https://github.com/lsaint/aikito) | Git-managed personal workspace for instructions, skills, MCP, and durable markdown memory across many agents and projects. Install: `uv tool install aikito` or `brew install lsaint/tap/aikito`. No database. Companion [chat-distiller](https://github.com/lsaint/chat-distiller) turns browser chats into inbox notes. | Rob’s “one parent workspace every agent can see.” |
+| [lsaint/aikito](https://github.com/lsaint/aikito) | Git-managed personal workspace for instructions, skills, MCP, and durable markdown memory across many agents and projects. Install: `uv tool install aikito` or `brew install lsaint/tap/aikito`. No database. Companion [chat-distiller](https://github.com/lsaint/chat-distiller) turns browser chats into inbox notes. | One parent workspace every agent can see. |
 | [code-ministry-ltd/the-librarian](https://github.com/code-ministry-ltd/the-librarian) | Markdown+git vault (memories, handoffs, references) with a resident curator and 7 MCP verbs. Cross-harness handoffs for Claude Code, Codex, OpenCode, Hermes, Pi. | Packaging work started in one tool and picked up in another. |
 | [kkjk1176/project-librarian](https://github.com/kkjk1176/project-librarian) | Repo-local planning wiki (`wiki/startup.md`) plus hooks for Codex, Claude Code, Cursor, Gemini CLI. | Per-repo session memory, not a global catalog. |
 | [jimy-r/agent-workspace-architecture](https://github.com/jimy-r/agent-workspace-architecture) | Reference layout: roles, typed memory, task board, audits. Claude-Code files; ideas port. | Steal the memory/task conventions, don’t treat as a product. |
@@ -35,13 +54,13 @@ That is three jobs, not one:
 
 macOS launchers (not catalogs, but they open the folder fast): [RepoPad](https://repopad.com/) (Spotlight / Alfred / Raycast), [Raycast Repository Manager](https://www.raycast.com/francesco_mecchi/repository-manager), [kfdm/alfred-repos](https://github.com/kfdm/alfred-repos). Pair with `mdfind` / Spotlight on a local parent dir.
 
-**None of these is Rob’s Librarian.** Closest composition: Aikito or The Librarian for agent memory + `gita` / `git-workspace` / RepoPad for “where is the repo” + a small markdown index (`catalog.md`) that records *path, github, blob store, last-touched, temperature*.
+**None of these is the full Librarian.** Closest composition: Aikito or The Librarian for agent memory + `gita` / `git-workspace` / RepoPad for “where is the repo” + a small markdown index (`catalog.md`) that records *path, github, blob store, last-touched, temperature*.
 
 ---
 
 ## macOS layer (practical)
 
-- **Parent directory on a real disk**, e.g. `~/AgentProjects` or `~/GitHub`. Point Claude / Cursor / Codex at that root. This is Rob’s pattern without putting live `.git` trees on streamed Drive.
+- **Parent directory on a real disk**, e.g. `~/AgentProjects` or `~/GitHub`. Point Claude / Cursor / Codex at that root. That is the pattern that avoids live `.git` trees on streamed Drive.
 - **Drive for desktop:** [stream vs mirror](https://support.google.com/drive/answer/13401938). Streaming on macOS 12.1+ uses File Provider; files are online unless marked offline, and the Drive app must be running ([macOS Drive help](https://support.google.com/drive/answer/12178485), [manage Drive for desktop](https://support.google.com/drive/answer/16631477)). Mirroring keeps a full local copy. [Working git *inside* a synced cloud folder is a known foot-gun](https://tonym.us/move-github-repos-to-google-drive.html) (index races, dehydrated objects, “bad object”). If Drive is in the loop, use it as a *bare remote* or a *docs/blob* tree — not as the working clone. CLI for the same Drive/Docs tree: [gogcli](#gogcli-drive--docs-from-the-cli).
 - **Finder aliases + tags** for “active / idle / archived.” Spotlight/`mdfind` is the free catalog for local files.
 - **Raycast / Alfred / RepoPad** to jump to a repo without hunting folders.
@@ -84,7 +103,7 @@ gog docs write <docId> --replace --markdown --file options-brief.md --pageless
 
 Quality bar — default Docs styles, real tables, named clickable links, no leftover raw markdown:
 
-- **Default named styles, not homemade fonts.** `#` / `##` must land as Docs named styles `HEADING_1` / `HEADING_2` (also `TITLE`, `SUBTITLE`, `NORMAL_TEXT`, `HEADING_3`–`HEADING_6`) ([`NamedStyleType`](https://developers.google.com/workspace/docs/api/reference/rest/v1/documents#NamedStyleType); gog `--named-style` / `--heading-level` set the same enum ([docs editing](https://gogcli.sh/docs-editing.html))). Check: `gog docs headings list <id>`. Promote a leftover: `gog docs format <id> --match "What Rob is asking" --heading-level 2`. Do not paint Arial-14 over everything — inherit the named style.
+- **Default named styles, not homemade fonts.** `#` / `##` must land as Docs named styles `HEADING_1` / `HEADING_2` (also `TITLE`, `SUBTITLE`, `NORMAL_TEXT`, `HEADING_3`–`HEADING_6`) ([`NamedStyleType`](https://developers.google.com/workspace/docs/api/reference/rest/v1/documents#NamedStyleType); gog `--named-style` / `--heading-level` set the same enum ([docs editing](https://gogcli.sh/docs-editing.html))). Check: `gog docs headings list <id>`. Promote a leftover: `gog docs format <id> --match "The problem" --heading-level 2`. Do not paint Arial-14 over everything — inherit the named style.
 - **Real tables, not pipe text.** GFM `| a | b |` through `--markdown` becomes a native table; `gog docs insert-table <id> --rows N --cols M --values-json '[[…]]' --at-end` if you want a guaranteed native table ([docs editing](https://gogcli.sh/docs-editing.html)). Pageless is the right layout for wide comparison tables. Verify: `gog docs tables list <id> --json`. If `gog docs cat` still shows `| --- |`, the converter missed it — fix the markdown (need a header + separator row) or use `insert-table`.
 - **Named clickable links.** Write `[Aikito](https://github.com/lsaint/aikito)`, not a bare URL and not leftover `[Aikito](https://…)`. That is a Docs `TextStyle.link` ([format text](https://developers.google.com/workspace/docs/api/how-tos/format-text); same markdown link shape Docs documents in the UI ([Use Markdown](https://support.google.com/docs/answer/12014036))). Patch: `gog docs format <id> --match "Aikito" --link https://github.com/lsaint/aikito`. `--link` accepts HTTP(S), `mailto:`, bookmark IDs, and heading slugs. Internal `[text](#slug)` is the foot-gun: it used to land as a raw `#slug` that Docs does not jump ([gogcli#633](https://github.com/openclaw/gogcli/issues/633)). Prefer full HTTPS URLs for a shareable brief. `gog docs paragraphs list <id> --json` reports link metadata.
 - **No leftover raw markdown.** Do not paste a `.md` as plain text (that is how `**bold**` and `[name](url)` survive). Do not `gog drive upload brief.md` *without* `--convert` / `--convert-to doc` — that stores a markdown blob, not a Doc ([`drive upload`](https://gogcli.sh/commands/gog-drive-upload.html)). Do not use Pandoc `{#slug}` on headings; it leaks as literal heading text ([gogcli#703](https://github.com/openclaw/gogcli/issues/703)). YAML frontmatter (`---`) is stripped on Drive convert unless you pass `--keep-frontmatter`. After convert, `gog docs cat <id>` should have no `**`, fence markers, or `[text](url)` leftovers; `gog docs export <id> md` is the round-trip check.
@@ -153,11 +172,11 @@ Plus operations and egress. **Do not put a frequently pruned restic repo on Near
 
 ---
 
-## Four scenarios
+## Four layouts
 
-### A. Rob’s Drive hub
+### Drive as the human hub
 
-**Layout:** Drive parent `AgentProjects/` (mirror, not stream). Markdown + small assets live there. Code still on GitHub; clone *next to* or *outside* Drive. Librarian agent rooted on that folder.
+**Layout:** Drive parent `AgentProjects/` (mirror, not stream). Markdown + small assets live there. Code still on GitHub; clone *next to* or *outside* Drive. Catalog agent rooted on that folder.
 
 **Clone:** [Aikito](https://github.com/lsaint/aikito) or [The Librarian](https://github.com/code-ministry-ltd/the-librarian) in that parent. [RepoPad](https://repopad.com/) / Raycast to open folders. CLI for Drive/Docs: [gogcli](#gogcli-drive--docs-from-the-cli).
 
@@ -169,7 +188,7 @@ Plus operations and egress. **Do not put a frequently pruned restic repo on Near
 
 **Risk:** Streamed Drive + git = corruption. Shared Drive sync conflicts.
 
-### B. Local-first + restic → GCS
+### Local disk + restic → GCS
 
 **Layout:** `~/AgentProjects` on APFS. GitHub for code. `restic backup ~/AgentProjects` → `gs:bucket:/restic` on **Standard**. Optional lifecycle: copy *closed* projects to Coldline/Archive as a second prefix, not by mutating the live restic repo.
 
@@ -183,7 +202,7 @@ Plus operations and egress. **Do not put a frequently pruned restic repo on Near
 
 **Risk:** You must run backups; Drive is not in the loop unless you also export.
 
-### C. Git + pointer store (LFS / annex / DVC)
+### Git + pointer store (LFS / annex / DVC)
 
 **Layout:** GitHub = code + pointers. Bytes in GitHub LFS *or* (better) DVC/annex → GCS/S3. Drive optional for humans.
 
@@ -197,7 +216,7 @@ Plus operations and egress. **Do not put a frequently pruned restic repo on Near
 
 **Risk:** LFS quota blocks pushes; CI clones burn bandwidth.
 
-### D. Hybrid graduate (recommended default)
+### Hybrid (recommended once you have more than a handful of projects)
 
 **Layout:**
 
@@ -208,7 +227,7 @@ Plus operations and egress. **Do not put a frequently pruned restic repo on Near
 
 **Huge file:** local + restic; pointer in git. Drive only if you need to share in Finder.
 
-**Lots of files:** same as B; git never holds the collection.
+**Lots of files:** same as local disk + restic; git never holds the collection.
 
 **Cost:** Drive for the small human set + GCS for the growing bulk. As projects graduate, monthly cost falls instead of paying 2 TB Drive forever.
 
@@ -216,20 +235,22 @@ Plus operations and egress. **Do not put a frequently pruned restic repo on Near
 
 ---
 
-## Pick one
+## Choose a layout
 
-- Want Rob’s setup this week, mostly markdown: **A**.
-- Want backups and scale without Drive-as-git: **B**.
-- Already have datasets tied to commits: **C** (prefer DVC/annex over GitHub LFS).
-- Want the thing that still works at 100 projects and a pile of mp4s: **D**.
+- Want it this week, mostly markdown, Drive as the place humans browse: **Drive as the human hub**.
+- Want backups and scale without Drive-as-git: **Local disk + restic → GCS**.
+- Already have datasets tied to commits: **Git + pointer store** (prefer DVC/annex over GitHub LFS).
+- Want the thing that still works at 100 projects and a pile of mp4s: **Hybrid**.
 
-After you pick, next slice is a concrete macOS folder layout + catalog schema + one clone (Aikito or The Librarian) wired to it.
+After you choose, next slice is a concrete macOS folder layout + catalog schema + one clone (Aikito or The Librarian) wired to it.
 
 ---
 
 ## Sources
 
-- [AI Folder and Project Management (Switch Dimension)](https://hub.switchdimension.com/c/start-here/ai-folder-and-project-management-what-are-you-using)
+- [AI Folder and Project Management (Switch Dimension hub)](https://hub.switchdimension.com/c/start-here/ai-folder-and-project-management-what-are-you-using)
+- [Switch Dimension community hub](https://hub.switchdimension.com)
+- [Switch Dimension AI (official site)](https://www.switchdimension.com/)
 - [kkjk1176/project-librarian](https://github.com/kkjk1176/project-librarian)
 - [code-ministry-ltd/the-librarian](https://github.com/code-ministry-ltd/the-librarian)
 - [lsaint/aikito](https://github.com/lsaint/aikito) / [PyPI aikito](https://pypi.org/project/aikito/)
@@ -263,7 +284,7 @@ After you pick, next slice is a concrete macOS folder layout + catalog schema + 
 - [Stream & mirror files with Drive for desktop](https://support.google.com/drive/answer/13401938)
 - [Use Drive for desktop on macOS](https://support.google.com/drive/answer/12178485)
 - [Manage Google Drive for desktop](https://support.google.com/drive/answer/16631477)
-- [Tony Metzidis: git remotes on Drive](https://tonym.us/move-github-repos-to-google-drive.html)
+- [Git remotes on Google Drive](https://tonym.us/move-github-repos-to-google-drive.html)
 - [openclaw/gogcli](https://github.com/openclaw/gogcli) / [README](https://github.com/openclaw/gogcli/blob/main/README.md)
 - [gogcli install](https://gogcli.sh/install.html)
 - [gogcli quickstart](https://github.com/openclaw/gogcli/blob/main/docs/quickstart.md)
@@ -280,4 +301,4 @@ After you pick, next slice is a concrete macOS folder layout + catalog schema + 
 - [gogcli#633: `#slug` links vs Docs heading IDs](https://github.com/openclaw/gogcli/issues/633)
 - [gogcli#703: Pandoc `{#slug}` leaks into headings](https://github.com/openclaw/gogcli/issues/703)
 
-Search note: `parallel-cli` v0.9.3 is installed but not authenticated (`PARALLEL_API_KEY` unset). Exa MCP was rate-limited. Findings above are from first-party web search/fetch of those URLs.
+Search note: `parallel-cli` v0.9.3 is installed but not authenticated (`PARALLEL_API_KEY` unset; `parallel-cli auth` → “Not authenticated”). Switch Dimension naming and join paths are from first-party fetch of [switchdimension.com](https://www.switchdimension.com/) and [hub.switchdimension.com](https://hub.switchdimension.com). No official referral/invite URL was published on those pages.
